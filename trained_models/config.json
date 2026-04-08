@@ -1,0 +1,38 @@
+{
+  "seed": 2025,
+  "device": "cuda",
+  "data_root": "data/splits_meta_with_neg",
+  "variants": [
+    "exp2_healthy_10x",
+    "exp2_healthy_100x",
+    "exp2_healthy_1000x"
+  ],
+  "train_file": "meta_train.csv",
+  "test_files": {
+    "meta_test": "meta_test.csv",
+    "few_test_query": "few_test_query.csv",
+    "unseen_test": "unseen_test.csv"
+  },
+  "also_eval_merged_test": true,
+  "task_col": "task_id",
+  "n_folds": 5,
+  "batch_size": 256,
+  "num_workers": 4,
+  "pin_memory": true,
+  "d_model": 256,
+  "nhead": 8,
+  "num_layers": 1,
+  "ffn_dim": 512,
+  "dropout": 0.1,
+  "max_cdr3": 60,
+  "max_pep": 25,
+  "max_mhc": 128,
+  "epochs": 30,
+  "lr": 0.0002,
+  "weight_decay": 0.01,
+  "grad_clip": 1.0,
+  "monitor": "PR_AUC",
+  "patience": 5,
+  "min_delta": 0.0001,
+  "out_root": "result/exp2_cross_5fold_baseline"
+}

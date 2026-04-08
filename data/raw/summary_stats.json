@@ -1,0 +1,363 @@
+{
+  "file": "/media/server/DATA1/lijiajun1/project/pmhc2_tcr/old/Attention_meta_model/data/raw/4_combined_data_with_labels.csv",
+  "overall": {
+    "n_rows": 4106,
+    "n_unique_epitope": 130,
+    "n_epitope_count_gt_10": 38,
+    "n_epitope_count_lt_5": 80,
+    "n_unique_cdr3_TRA": 907,
+    "n_unique_cdr3_TRB": 3414,
+    "n_unique_TRA_TRB_pairs": 1442
+  },
+  "columns": {
+    "cdr3_TRA": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 1676,
+      "n_null": 2430,
+      "n_unique": 907,
+      "top_values": [
+        {
+          "value": "CAGLNYGGSQGNLIF",
+          "count": 143
+        },
+        {
+          "value": "CAGQNYGGSQGNLIF",
+          "count": 141
+        },
+        {
+          "value": "CAGMNYGGSQGNLIF",
+          "count": 111
+        },
+        {
+          "value": "CAGRNYGGSQGNLIF",
+          "count": 31
+        },
+        {
+          "value": "CAGQLYGGSQGNLIF",
+          "count": 29
+        },
+        {
+          "value": "CAALNYGGSQGNLIF",
+          "count": 27
+        },
+        {
+          "value": "CAAMNYGGSQGNLIF",
+          "count": 16
+        },
+        {
+          "value": "CAAQNYGGSQGNLIF",
+          "count": 15
+        },
+        {
+          "value": "CAGQLFKAAGNKLTF",
+          "count": 11
+        },
+        {
+          "value": "CAGFNYGGSQGNLIF",
+          "count": 8
+        }
+      ],
+      "boolean_like": false
+    },
+    "cdr3_TRB": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 3991,
+      "n_null": 115,
+      "n_unique": 3414,
+      "top_values": [
+        {
+          "value": "CASSFRSTDTQYF",
+          "count": 10
+        },
+        {
+          "value": "CSARDGGRSSYEQYF",
+          "count": 9
+        },
+        {
+          "value": "CASSQGVGYTF",
+          "count": 7
+        },
+        {
+          "value": "CASSLRSTDTQYF",
+          "count": 7
+        },
+        {
+          "value": "CASSVAGEDYGYTF",
+          "count": 6
+        },
+        {
+          "value": "CASSIRSTDTQYF",
+          "count": 6
+        },
+        {
+          "value": "CASSLRYTDTQYF",
+          "count": 5
+        },
+        {
+          "value": "CASSLERETQYF",
+          "count": 5
+        },
+        {
+          "value": "CASSRGGTGGNEQFF",
+          "count": 4
+        },
+        {
+          "value": "CASSLRGANGYTF",
+          "count": 4
+        }
+      ],
+      "boolean_like": false
+    },
+    "epitope": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 130,
+      "top_values": [
+        {
+          "value": "TFEYVSQPFLMDLE",
+          "count": 846
+        },
+        {
+          "value": "PKYVKQNTLKLAT",
+          "count": 395
+        },
+        {
+          "value": "RFYKTLRAEQASQ",
+          "count": 381
+        },
+        {
+          "value": "FRDYVDRFYKTLRAEQASQE",
+          "count": 370
+        },
+        {
+          "value": "WEDLFCDESLSSPEPPSSSE",
+          "count": 364
+        },
+        {
+          "value": "LLQTGIHVRVSQPSL",
+          "count": 301
+        },
+        {
+          "value": "QARQMVQAMRTIGTHP",
+          "count": 124
+        },
+        {
+          "value": "GLIYNRMGAVTTEV",
+          "count": 121
+        },
+        {
+          "value": "SLFFSAQPFEITAST",
+          "count": 116
+        },
+        {
+          "value": "DPFRLLQNSQVFS",
+          "count": 103
+        }
+      ],
+      "boolean_like": false
+    },
+    "MHCA": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 3696,
+      "n_null": 410,
+      "n_unique": 15,
+      "top_values": [
+        {
+          "value": "DRA*01:01",
+          "count": 2795
+        },
+        {
+          "value": "DPA1*01:03",
+          "count": 476
+        },
+        {
+          "value": "DQA1*02:01",
+          "count": 190
+        },
+        {
+          "value": "DQA1*05:01",
+          "count": 130
+        },
+        {
+          "value": "DQA1*03:01",
+          "count": 33
+        },
+        {
+          "value": "DQA1*01:02",
+          "count": 17
+        },
+        {
+          "value": "DQA1*01:01",
+          "count": 16
+        },
+        {
+          "value": "DPA1*02:01",
+          "count": 13
+        },
+        {
+          "value": "DRA*01:02",
+          "count": 10
+        },
+        {
+          "value": "DQA1*01:03",
+          "count": 7
+        }
+      ],
+      "boolean_like": false
+    },
+    "MHCB": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 31,
+      "top_values": [
+        {
+          "value": "DPB1*04:01",
+          "count": 862
+        },
+        {
+          "value": "DRB1*01:01",
+          "count": 833
+        },
+        {
+          "value": "DRB1*15:01",
+          "count": 604
+        },
+        {
+          "value": "DRB1*11:01",
+          "count": 540
+        },
+        {
+          "value": "DRB1*04:01",
+          "count": 408
+        },
+        {
+          "value": "DQB1*02:01",
+          "count": 294
+        },
+        {
+          "value": "DRB1*07:01",
+          "count": 173
+        },
+        {
+          "value": "DRB1*12:01",
+          "count": 93
+        },
+        {
+          "value": "DRB1*04:02",
+          "count": 70
+        },
+        {
+          "value": "DQB1*06:02",
+          "count": 49
+        }
+      ],
+      "boolean_like": false
+    },
+    "source": {
+      "exists": true,
+      "dtype": "object",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 5,
+      "top_values": [
+        {
+          "value": "vdjdb",
+          "count": 1334
+        },
+        {
+          "value": "EGRO_vDJDB_train",
+          "count": 1011
+        },
+        {
+          "value": "McPAS",
+          "count": 967
+        },
+        {
+          "value": "MixTCRpred",
+          "count": 571
+        },
+        {
+          "value": "EGRO_vDJDB_test",
+          "count": 223
+        }
+      ],
+      "boolean_like": false
+    },
+    "is_ERGOvdj_train": {
+      "exists": true,
+      "dtype": "int64",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 2,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 3095
+        },
+        {
+          "value": "1",
+          "count": 1011
+        }
+      ],
+      "boolean_like": true,
+      "bool_counts": {
+        "True": 1011,
+        "False": 3095,
+        "NA": 0
+      }
+    },
+    "is_paired_cdr": {
+      "exists": true,
+      "dtype": "int64",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 2,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 2545
+        },
+        {
+          "value": "1",
+          "count": 1561
+        }
+      ],
+      "boolean_like": true,
+      "bool_counts": {
+        "True": 1561,
+        "False": 2545,
+        "NA": 0
+      }
+    },
+    "is_paired_all": {
+      "exists": true,
+      "dtype": "int64",
+      "n_nonnull": 4106,
+      "n_null": 0,
+      "n_unique": 2,
+      "top_values": [
+        {
+          "value": "0",
+          "count": 3049
+        },
+        {
+          "value": "1",
+          "count": 1057
+        }
+      ],
+      "boolean_like": true,
+      "bool_counts": {
+        "True": 1057,
+        "False": 3049,
+        "NA": 0
+      }
+    }
+  }
+}
