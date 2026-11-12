@@ -1,0 +1,7 @@
+dataset,model,ROC_AUC,PR_AUC
+1000x_meta_test,SAMII-TCR,0.8792,0.2846
+1000x_meta_test,Baseline,0.8622,0.2654
+1000x_few_test_query,SAMII-TCR,0.9468,0.0328
+1000x_few_test_query,Baseline,0.9296,0.0106
+1000x_unseen_test,SAMII-TCR,0.9339,0.0284
+1000x_unseen_test,Baseline,0.9355,0.0185

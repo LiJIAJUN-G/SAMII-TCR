@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 dataset.py
-包含数据集、预处理、MHC伪序列加载、分词等
+
+Dataset, preprocessing, MHC pseudo-sequence lookup, and amino-acid tokenization
+for SAMII-TCR.
 """
 
 import os, sys, json, random, re
@@ -17,21 +19,23 @@ PSEUDO_DIR = ROOT / "mhc_pseudoseq"
 
 # ---------- Tokenization ----------
 AA_VOCAB = list("ACDEFGHIKLMNPQRSTVWY") + ["X"]
-AA_TO_ID = {a: i+1 for i,a in enumerate(AA_VOCAB)}  # 0 预留给 PAD
-VOCAB_SIZE = len(AA_VOCAB) + 1  # 含 PAD
+AA_TO_ID = {a: i+1 for i, a in enumerate(AA_VOCAB)}  # 0 is reserved for PAD
+VOCAB_SIZE = len(AA_VOCAB) + 1  # including PAD
 
-def clean_seq(seq:str)->str:
-    if not isinstance(seq,str): return ""
-    s = seq.strip().upper().replace(" ","")
+def clean_seq(seq: str) -> str:
+    if not isinstance(seq, str):
+        return ""
+    s = seq.strip().upper().replace(" ", "")
     return "".join([a if a in AA_TO_ID else "X" for a in s])
 
-def tokenize(seq,max_len):
+def tokenize(seq, max_len):
     s = clean_seq(seq)
-    ids = [AA_TO_ID.get(a,AA_TO_ID["X"]) for a in s[:max_len]]
-    if len(ids)<max_len: ids += [0]*(max_len-len(ids))
-    return np.array(ids,dtype=np.int64)
+    ids = [AA_TO_ID.get(a, AA_TO_ID["X"]) for a in s[:max_len]]
+    if len(ids) < max_len:
+        ids += [0] * (max_len - len(ids))
+    return np.array(ids, dtype=np.int64)
 
-# ---------- Inline MHC pseudo loader (processed_seq_1) ----------
+# ---------- MHC pseudo-sequence loader ----------
 FILE_MAP = {
     "DPA1": "DPA1_seq.csv",
     "DPB1": "DPB1_seq.csv",
@@ -40,12 +44,12 @@ FILE_MAP = {
     "DQB1": "DQB1_seq.csv",
     "DQB2": "DQB2_seq.csv",
     "DRA":  "DRA_seq.csv",
-    "DRB":  "DRB_seq.csv",  # 包含 DRB1/3/4/5
+    "DRB":  "DRB_seq.csv",  # covers DRB1/3/4/5
 }
 ALLELE_HEADS = (
-    "DRA","DRB1","DRB3","DRB4","DRB5",
-    "DQA1","DQA2","DQB1","DQB2",
-    "DPA1","DPB1",
+    "DRA", "DRB1", "DRB3", "DRB4", "DRB5",
+    "DQA1", "DQA2", "DQB1", "DQB2",
+    "DPA1", "DPB1",
 )
 _PSEUDO_INDEX = {}
 
@@ -83,7 +87,7 @@ def _gene_key_from_head(head: str) -> str:
     return head
 
 def _parse_allele_to_aliases(allele: str):
-    if not isinstance(allele, str): 
+    if not isinstance(allele, str):
         return None, set()
     s = allele.strip().upper().replace(" ", "")
     if s == "" or s == "NAN":
@@ -117,14 +121,14 @@ def _build_pseudo_index():
     for gk, fname in FILE_MAP.items():
         fpath = PSEUDO_DIR / fname
         if not fpath.exists():
-            raise FileNotFoundError(f"[MHC pseudo] 文件缺失：{fpath}")
+            raise FileNotFoundError(f"[MHC pseudo] missing file: {fpath}")
         df = pd.read_csv(fpath, dtype=str)
         if "prot" not in df.columns or "processed_seq_1" not in df.columns:
-            raise ValueError(f"[MHC pseudo] {fpath} 缺少 'prot' 或 'processed_seq_1' 列")
+            raise ValueError(f"[MHC pseudo] {fpath} requires 'prot' and 'processed_seq_1' columns")
         mapping = {}
         for _, row in df.iterrows():
             prot = str(row["prot"]).strip()
-            seq  = str(row["processed_seq_1"]).strip()
+            seq = str(row["processed_seq_1"]).strip()
             if not prot or not seq:
                 continue
             aliases = _make_aliases(prot)
@@ -142,7 +146,6 @@ def get_pseudoseq_inline(allele: str) -> str:
     if gene_key is None or not aliases:
         return ""
     mp = _PSEUDO_INDEX.get(gene_key, {})
-    # 直接检查别名映射
     for alias in aliases:
         if alias in mp:
             return mp[alias]
@@ -150,25 +153,28 @@ def get_pseudoseq_inline(allele: str) -> str:
 
 # ---------- Dataset ----------
 class PMHCTCRDataset(Dataset):
-    def __init__(self,df,max_cdr3=60,max_pep=25,max_mhc=128):
-        self.df=df.reset_index(drop=True)
-        self.max_cdr3=max_cdr3;self.max_pep=max_pep;self.max_mhc=max_mhc
-    def __len__(self): return len(self.df)
-    def __getitem__(self,idx):
-        r=self.df.iloc[idx]
+    def __init__(self, df, max_cdr3=60, max_pep=25, max_mhc=128):
+        self.df = df.reset_index(drop=True)
+        self.max_cdr3 = max_cdr3
+        self.max_pep = max_pep
+        self.max_mhc = max_mhc
+    def __len__(self):
+        return len(self.df)
+    def __getitem__(self, idx):
+        r = self.df.iloc[idx]
         return {
-            "cdr3":torch.from_numpy(tokenize(r["CDR3.beta.aa"],self.max_cdr3)),
-            "pep": torch.from_numpy(tokenize(r["Epitope.peptide"],self.max_pep)),
-            "mhc": torch.from_numpy(tokenize(r["MHC_pseudo"],self.max_mhc)),
-            "y":   torch.tensor(np.float32(r["label"])),
-            "epi": r.get("Epitope.peptide","")  # for SupCon
+            "cdr3": torch.from_numpy(tokenize(r["CDR3.beta.aa"], self.max_cdr3)),
+            "pep": torch.from_numpy(tokenize(r["Epitope.peptide"], self.max_pep)),
+            "mhc": torch.from_numpy(tokenize(r["MHC_pseudo"], self.max_mhc)),
+            "y": torch.tensor(np.float32(r["label"])),
+            "epi": r.get("Epitope.peptide", "")
         }
 
 # ---------- Preprocess ----------
 def preprocess(df):
     df = df.copy()
 
-    # ---- TCR 合并 ----
+    # ---- Merge TRA and TRB CDR3 into a single TCR sequence field ----
     tra = df.get("cdr3_TRA", pd.Series([""] * len(df))).fillna("").astype(str)
     trb = df.get("cdr3_TRB", pd.Series([""] * len(df))).fillna("").astype(str)
     df["CDR3.beta.aa"] = [(a + b if a and b else a or b or "") for a, b in zip(tra, trb)]
@@ -176,7 +182,7 @@ def preprocess(df):
     df = df[df["CDR3.beta.aa"] != ""]
     n_drop_tcr = n_before - len(df)
 
-    # ---- 选择 MHC 列：优先 norm ----
+    # ---- MHC columns: prefer the normalized forms when present ----
     if "MHCA_norm" in df.columns and "MHCB_norm" in df.columns:
         mhca = df["MHCA_norm"].fillna("").astype(str)
         mhcb = df["MHCB_norm"].fillna("").astype(str)
@@ -195,15 +201,13 @@ def preprocess(df):
     # ---- epitope ----
     df["Epitope.peptide"] = df.get("epitope", pd.Series([""] * len(df))).fillna("").astype(str)
 
-    # ---- label：优先 Target，其次 label，如果都没有则填 0.0 (支持无标签预测) ----
+    # ---- label: prefer 'Target', then 'label'; if neither exists, fill 0.0
+    #      (supports label-free prediction) ----
     if "Target" in df.columns:
-        # 兼容部分数据集使用 Target 作为标签名
         df["label"] = pd.to_numeric(df["Target"], errors="coerce").fillna(0).astype(float)
     elif "label" in df.columns:
-        # 标准情况
         df["label"] = pd.to_numeric(df["label"], errors="coerce").fillna(0).astype(float)
     else:
-        # 【关键修改】：如果没有标签列，直接创建全 0 列，避免报错
         df["label"] = 0.0
 
     print(f"[Preprocess] dropped TCR-empty: {n_drop_tcr}, dropped MHC-empty: {n_drop_mhc}, kept: {len(df)}")

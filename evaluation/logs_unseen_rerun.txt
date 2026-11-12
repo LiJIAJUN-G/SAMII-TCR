@@ -1,0 +1,33 @@
+/media/server/DATA1/lijiajun1/miniconda3/envs/python/lib/python3.10/site-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  warnings.warn(
+=== SAMII-TCR Prediction (5-Fold Ensemble) ===
+Input:    data/1000x/unseen_test.csv
+Support:  None
+Output:   evaluation/predictions/chain_matched/1000x/unseen_test_pred_samiitcr.csv
+
+Step 1: Analyzing meta-training tasks (seen tasks)...
+  -> --force_meta set: routing ALL records to the meta ensemble.
+
+Step 2: Loading test data...
+[Preprocess] dropped TCR-empty: 0, dropped MHC-empty: 0, kept: 172026
+  -> No support data provided/found. TTFT will be skipped.
+
+Processing strategy:
+  1. [Baseline ensemble]  (seen tasks):        0 samples
+  2. [Meta TTFT ensemble] (unseen + support):  0 samples
+  3. [Meta zero-shot]     (unseen only):       172026 samples
+
+>>> Loading meta models...
+Loading meta ensemble (5 folds) from trained_models/chain_matched/meta_1000x...
+  Loaded 5 models.
+
+>>> Running meta zero-shot ensemble...
+
+Step 3: Saving results...
+  -> Saved to evaluation/predictions/chain_matched/1000x/unseen_test_pred_samiitcr.csv
+
+=== Performance Report ===
+  Samples evaluated: 172026
+  ROC_AUC: 0.9339
+  PR_AUC:  0.0284
+  Acc:     0.7887
