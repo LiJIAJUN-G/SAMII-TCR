@@ -97,7 +97,7 @@ MODEL_SET=random_background bash evaluation/run_evaluation.sh
 
 ```bash
 python models/predict.py \
-    --meta_train data/1000x/meta_train.csv.gz \
+    --meta_train data/10x/meta_train.csv.gz \
     --test_file your_queries.csv \
     --support_file your_support.csv   # optional; enables few-shot TTFT
     --output prediction_result.csv

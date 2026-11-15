@@ -24,7 +24,7 @@ def get_args():
     parser.add_argument("--input_csv", type=str, required=True, help="Path to the input CSV file")
     parser.add_argument("--output_csv", type=str, required=True, help="Path to save prediction results")
 
-    parser.add_argument("--model_dir", type=str, default="trained_models/chain_matched/baseline_1000x",
+    parser.add_argument("--model_dir", type=str, default="trained_models/chain_matched/baseline_10x",
                         help="Directory containing fold_1..fold_5/best_model.pt")
 
     parser.add_argument("--batch_size", type=int, default=256)

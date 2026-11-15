@@ -34,11 +34,11 @@ from model import AttBaselineModel, _compute_metrics_from_arrays
 # =========================
 # Defaults (relative to the repository root)
 # =========================
-DEFAULT_META_TRAIN = "data/1000x/meta_train.csv.gz"
-DEFAULT_TEST_FILE = "data/1000x/unseen_test.csv"
+DEFAULT_META_TRAIN = "data/10x/meta_train.csv.gz"
+DEFAULT_TEST_FILE = "data/10x/unseen_test.csv"
 DEFAULT_OUTPUT = "evaluation/predictions/prediction_result.csv"
-DEFAULT_BASELINE_DIR = "trained_models/chain_matched/baseline_1000x"
-DEFAULT_META_DIR = "trained_models/chain_matched/meta_1000x"
+DEFAULT_BASELINE_DIR = "trained_models/chain_matched/baseline_10x"
+DEFAULT_META_DIR = "trained_models/chain_matched/meta_10x"
 
 # =========================
 # Configuration
